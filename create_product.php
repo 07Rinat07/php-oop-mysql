@@ -39,6 +39,9 @@ if ($_POST) {
     // создание товара
     if ($product->create()) {
         echo '<div class="alert alert-success">Товар был успешно создан.</div>';
+        // пытаемся загрузить отправленный файл
+// метод uploadPhoto() вернет сообщение об ошибке, в случае неудачи
+        echo $product->uploadPhoto();
     } // если не удается создать товар, сообщим об этом пользователю
     else {
         echo '<div class="alert alert-danger">Невозможно создать товар.</div>';
