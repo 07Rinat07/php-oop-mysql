@@ -32,7 +32,42 @@ include_once "layout_header.php";
         <a href="index.php" class="btn btn-default pull-right">Просмотр всех товаров</a>
     </div>
 
-    <!-- здесь будет форма обновления товара -->
+    <!-- здесь будет контент -->
+
+    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post">
+        <table class="table table-hover table-responsive table-bordered">
+
+            <tr>
+                <td>Название</td>
+                <td><input type="text" name="name" value="<?= $product->name; ?>" class="form-control" /></td>
+            </tr>
+
+            <tr>
+                <td>Цена</td>
+                <td><input type="text" name="price" value="<?= $product->price; ?>" class="form-control" /></td>
+            </tr>
+
+            <tr>
+                <td>Описание</td>
+                <td><textarea name="description" class="form-control"><?= $product->description; ?></textarea></td>
+            </tr>
+
+            <tr>
+                <td>Категория</td>
+                <td>
+                    <!-- здесь будет раскрывающийся список для выбора категории -->
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit" class="btn btn-primary">Обновить</button>
+                </td>
+            </tr>
+
+        </table>
+    </form>
 
 <?php // подвал
 require_once "layout_footer.php";
