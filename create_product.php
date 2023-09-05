@@ -24,20 +24,22 @@ require_once "layout_header.php";
 
 <?php
 // если форма была отправлена
-if ($_POST)
-{
+if ($_POST) {
     // установим значения свойствам товара
     $product->name = $_POST["name"];
     $product->price = $_POST["price"];
     $product->description = $_POST["description"];
     $product->category_id = $_POST["category_id"];
 
+    $image = !empty($_FILES["image"]["name"])
+        ? sha1_file($_FILES["image"]["tmp_name"]) . "-" . basename($_FILES["image"]["name"]) : "";
+    $product->image = $image;
+
+
     // создание товара
     if ($product->create()) {
         echo '<div class="alert alert-success">Товар был успешно создан.</div>';
-    }
-
-    // если не удается создать товар, сообщим об этом пользователю
+    } // если не удается создать товар, сообщим об этом пользователю
     else {
         echo '<div class="alert alert-danger">Невозможно создать товар.</div>';
     }
@@ -45,18 +47,18 @@ if ($_POST)
 ?>
 
 <!-- HTML-формы для создания товара -->
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
 
     <table class="table table-hover table-responsive table-bordered">
 
         <tr>
             <td>Название</td>
-            <td><input type="text" name="name" class="form-control" /></td>
+            <td><input type="text" name="name" class="form-control"/></td>
         </tr>
 
         <tr>
             <td>Цена</td>
-            <td><input type="text" name="price" class="form-control" /></td>
+            <td><input type="text" name="price" class="form-control"/></td>
         </tr>
 
         <tr>
@@ -67,26 +69,26 @@ if ($_POST)
         <tr>
         <tr>
             <td>Изображение</td>
-            <td><input type="file" name="image" /></td>
+            <td><input type="file" name="image"/></td>
         </tr>
-            <td>Категория</td>
-            <td>
-                <?php
-                // читаем категории товаров из базы данных
-                $stmt = $category->read();
+        <td>Категория</td>
+        <td>
+            <?php
+            // читаем категории товаров из базы данных
+            $stmt = $category->read();
 
-                // помещаем их в выпадающий список
-                echo "<select class='form-control' name='category_id'>";
-                echo "<option>Выбрать категорию...</option>";
+            // помещаем их в выпадающий список
+            echo "<select class='form-control' name='category_id'>";
+            echo "<option>Выбрать категорию...</option>";
 
-                while ($row_category = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    extract($row_category);
-                    echo "<option value='{$id}'>{$name}</option>";
-                }
+            while ($row_category = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                extract($row_category);
+                echo "<option value='{$id}'>{$name}</option>";
+            }
 
-                echo "</select>";
-                ?>
-            </td>
+            echo "</select>";
+            ?>
+        </td>
         </tr>
 
         <tr>
