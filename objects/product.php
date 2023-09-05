@@ -1,5 +1,7 @@
 <?php
 
+global $db;
+
 class Product
 {
     // подключение к базе данных и имя таблицы
@@ -89,7 +91,6 @@ class Product
         return $num;
     }
 
-    // метод для получения товара
     // метод для получения товара
     function readOne()
     {
@@ -202,7 +203,7 @@ class Product
         return $stmt;
     }
 
-// метод для подсчёта общего количества строк
+    // метод для подсчёта общего количества строк
     public function countAll_BySearch($search_term)
     {
         // запрос
@@ -226,12 +227,13 @@ class Product
 
         return $row["total_rows"];
     }
+
     // загрузка файла изображения на сервер
     function uploadPhoto()
     {
         $result_message = "";
 
-        // если изображение не пустое, пробуем загрузить его
+        // если изображение не пусто, пробуем загрузить его
         if ($this->image) {
 
             // функция sha1_file() используется для создания уникального имени файла
@@ -250,24 +252,24 @@ class Product
                 $file_upload_error_messages .= "<div>Отправленный файл не является изображением.</div>";
             }
 
-// проверяем, разрешены ли определенные типы файлов
+            // проверяем, разрешены ли определенные типы файлов
             $allowed_file_types = array("jpg", "jpeg", "png", "gif");
 
             if (!in_array($file_type, $allowed_file_types)) {
                 $file_upload_error_messages .= "<div>Разрешены только файлы JPG, JPEG, PNG, GIF.</div>";
             }
 
-// убеждаемся, что файл не существует
+            // убеждаемся, что файл не существует
             if (file_exists($target_file)) {
                 $file_upload_error_messages .= "<div>Изображение уже существует. Попробуйте изменить имя файла.</div>";
             }
 
-// убедимся, что отправленный файл не слишком большой (не может быть больше 1 МБ)
+            // убедимся, что отправленный файл не слишком большой (не может быть больше 1 МБ)
             if ($_FILES["image"]["size"] > (1024000)) {
                 $file_upload_error_messages .= "<div>Размер изображения не должен превышать 1 МБ.</div>";
             }
 
-// убедимся, что папка uploads существует, если нет, то создаём
+            // убедимся, что папка uploads существует, если нет, то создаём
             if (!is_dir($target_directory)) {
                 mkdir($target_directory, 0777, true);
             }
@@ -277,26 +279,24 @@ class Product
     }
 
 }
-// если $file_upload_error_messages всё ещё пуст
+
+// создаем объект Product и передаем ему подключение к базе данных
+$product = new Product($db);
+
+// инициализируем переменную для сообщений об ошибках
+$file_upload_error_messages = "";
+
+// вызываем метод uploadPhoto() для загрузки фотографии
+$result_message = $product->uploadPhoto();
+
+// если ошибок при загрузке нет, то продолжаем
 if (empty($file_upload_error_messages)) {
-
-    // ошибок нет, пробуем загрузить файл
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        // фото загружено
-    } else {
-        $result_message .= "<div class='alert alert-danger'>";
-        $result_message .= "<div>Невозможно загрузить фото.</div>";
-        $result_message .= "<div>Обновите запись, чтобы загрузить фото снова.</div>";
-        $result_message .= "</div>";
-    }
-}
-
-// если $file_upload_error_messages НЕ пусто
-else {
-
-    // это означает, что есть ошибки, поэтому покажем их пользователю
+    // ваш код для работы с успешно загруженным изображением
+} else {
+    // ваш код для обработки ошибок загрузки
     $result_message .= "<div class='alert alert-danger'>";
     $result_message .= "{$file_upload_error_messages}";
-    $result_message .= "<div>Обновите запись, чтобы загрузить фото.</div>";
+    $result_message .= "<div>Обновите запись, чтобы загрузить фото снова.</div>";
     $result_message .= "</div>";
 }
+
