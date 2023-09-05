@@ -61,7 +61,18 @@ if ($num > 0) {
         echo "</td>";
 
         echo "<td>";
-        // здесь будут кнопки для просмотра, редактирования и удаления
+        // ссылки/кнопки для просмотра, редактирования и удаления товара
+        echo "<a href='read_product.php?id={$id}' class='btn btn-primary left-margin'>
+    <span class='glyphicon glyphicon-list'></span> Просмотр
+</a>
+
+<a href='update_product.php?id={$id}' class='btn btn-info left-margin'>
+    <span class='glyphicon glyphicon-edit'></span> Редактировать
+</a>
+
+<a delete-id='{$id}' class='btn btn-danger delete-object'>
+    <span class='glyphicon glyphicon-remove'></span> Удалить
+</a>";
         echo "</td>";
 
         echo "</tr>";
@@ -71,9 +82,7 @@ if ($num > 0) {
     echo "</table>";
 
     // здесь будет пагинация
-}
-
-// сообщим пользователю, что товаров нет
+} // сообщим пользователю, что товаров нет
 else {
     echo "<div class='alert alert-info'>Товары не найдены.</div>";
 }
