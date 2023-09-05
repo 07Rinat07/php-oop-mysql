@@ -45,7 +45,7 @@ if ($_POST)
 ?>
 
 <!-- HTML-формы для создания товара -->
-<form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
 
     <table class="table table-hover table-responsive table-bordered">
 
@@ -65,6 +65,10 @@ if ($_POST)
         </tr>
 
         <tr>
+        <tr>
+            <td>Изображение</td>
+            <td><input type="file" name="image" /></td>
+        </tr>
             <td>Категория</td>
             <td>
                 <?php
