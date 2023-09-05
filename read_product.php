@@ -32,6 +32,32 @@ require_once "layout_header.php";
             <span class="glyphicon glyphicon-list"></span> Просмотр всех товаров
         </a>
     </div>
+    <!-- HTML-таблица для отображения информации о товаре -->
+    <table class="table table-hover table-responsive table-bordered">
+        <tr>
+            <td>Название</td>
+            <td><?= $product->name; ?></td>
+        </tr>
+        <tr>
+            <td>Цена</td>
+            <td><?= $product->price; ?></td>
+        </tr>
+        <tr>
+            <td>Описание</td>
+            <td><?= $product->description; ?></td>
+        </tr>
+        <tr>
+            <td>Категория</td>
+            <td>
+                <?php // выводим название категории
+                $category->id = $product->category_id;
+                $category->readName();
+
+                echo $category->name;
+                ?>
+            </td>
+        </tr>
+    </table>
 
 <?php // подвал
 require_once "layout_footer.php";
