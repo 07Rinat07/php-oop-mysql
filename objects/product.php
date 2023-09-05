@@ -228,5 +228,24 @@ class Product
 
         return $row["total_rows"];
     }
+    // загрузка файла изображения на сервер
+    function uploadPhoto()
+    {
+        $result_message = "";
+
+        // если изображение не пустое, пробуем загрузить его
+        if ($this->image) {
+
+            // функция sha1_file() используется для создания уникального имени файла
+            $target_directory = "uploads/";
+            $target_file = $target_directory . $this->image;
+            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+            // сообщение об ошибке пусто
+            $file_upload_error_messages = "";
+        }
+
+        return $result_message;
+    }
 }
 
