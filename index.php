@@ -33,6 +33,52 @@ require_once "layout_header.php";
         <a href="create_product.php" class="btn btn-default pull-right">Добавить товар</a>
     </div>
 
+<?php
+// отображаем товары, если они есть
+if ($num > 0) {
+
+    echo "<table class='table table-hover table-responsive table-bordered'>";
+    echo "<tr>";
+    echo "<th>Товар</th>";
+    echo "<th>Цена</th>";
+    echo "<th>Описание</th>";
+    echo "<th>Категория</th>";
+    echo "<th>Действия</th>";
+    echo "</tr>";
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        extract($row);
+
+        echo "<tr>";
+        echo "<td>{$name}</td>";
+        echo "<td>{$price}</td>";
+        echo "<td>{$description}</td>";
+        echo "<td>";
+        $category->id = $category_id;
+        $category->readName();
+        echo $category->name;
+        echo "</td>";
+
+        echo "<td>";
+        // здесь будут кнопки для просмотра, редактирования и удаления
+        echo "</td>";
+
+        echo "</tr>";
+
+    }
+
+    echo "</table>";
+
+    // здесь будет пагинация
+}
+
+// сообщим пользователю, что товаров нет
+else {
+    echo "<div class='alert alert-info'>Товары не найдены.</div>";
+}
+?>
+
 <?php // подвал
 require_once "layout_footer.php";
 
