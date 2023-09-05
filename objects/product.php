@@ -277,5 +277,28 @@ class Product
 
         return $result_message;
     }
+
+}
+// если $file_upload_error_messages всё ещё пуст
+if (empty($file_upload_error_messages)) {
+
+    // ошибок нет, пробуем загрузить файл
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        // фото загружено
+    } else {
+        $result_message .= "<div class='alert alert-danger'>";
+        $result_message .= "<div>Невозможно загрузить фото.</div>";
+        $result_message .= "<div>Обновите запись, чтобы загрузить фото снова.</div>";
+        $result_message .= "</div>";
+    }
 }
 
+// если $file_upload_error_messages НЕ пусто
+else {
+
+    // это означает, что есть ошибки, поэтому покажем их пользователю
+    $result_message .= "<div class='alert alert-danger'>";
+    $result_message .= "{$file_upload_error_messages}";
+    $result_message .= "<div>Обновите запись, чтобы загрузить фото.</div>";
+    $result_message .= "</div>";
+}
