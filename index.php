@@ -8,7 +8,21 @@ $records_per_page = 5;
 // подсчитываем лимит запроса
 $from_record_num = ($records_per_page * $page) - $records_per_page;
 
-// здесь будет получение товаров из БД
+// включаем соединение с БД и файлы с объектами
+include_once "config/database.php";
+include_once "objects/product.php";
+include_once "objects/category.php";
+
+// создаём экземпляры классов БД и объектов
+$database = new Database();
+$db = $database->getConnection();
+
+$product = new Product($db);
+$category = new Category($db);
+
+// запрос товаров
+$stmt = $product->readAll($from_record_num, $records_per_page);
+$num = $stmt->rowCount();
 // установка заголовка страницы
 $page_title = "Вывод товаров";
 
