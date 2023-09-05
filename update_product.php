@@ -55,7 +55,26 @@ include_once "layout_header.php";
             <tr>
                 <td>Категория</td>
                 <td>
-                    <!-- здесь будет раскрывающийся список для выбора категории -->
+                    <?php
+                    $stmt = $category->read();
+
+                    // помещаем категории в выпадающий список
+                    echo "<select class='form-control' name='category_id'>";
+                    echo "<option selected disabled value=''>Выберите категорию</option>";
+                    while ($row_category = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        $category_id = $row_category["id"];
+                        $category_name = $row_category["name"];
+
+                        // необходимо выбрать текущую категорию товара
+                        if ($product->category_id == $category_id) {
+                            echo "<option value='$category_id' selected>";
+                        } else {
+                            echo "<option value='$category_id'>";
+                        }
+                        echo "$category_name</option>";
+                    }
+                    echo "</select>";
+                    ?>
                 </td>
             </tr>
 
