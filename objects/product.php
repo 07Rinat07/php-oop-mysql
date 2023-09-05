@@ -90,17 +90,14 @@ class Product
     }
 
     // метод для получения товара
+    // метод для получения товара
     function readOne()
     {
-        // запрос MySQL
-        $query = "SELECT
-                name, price, description, category_id
-            FROM
-                " . $this->table_name . "
-            WHERE
-                id = ?
-            LIMIT
-                0,1";
+        // MySQL запрос
+        $query = "SELECT name, price, description, category_id, image
+        FROM " . $this->table_name . "
+        WHERE id = ?
+        LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id);
@@ -112,6 +109,7 @@ class Product
         $this->price = $row["price"];
         $this->description = $row["description"];
         $this->category_id = $row["category_id"];
+        $this->image = $row["image"];
     }
 
     // метод для обновления товара
