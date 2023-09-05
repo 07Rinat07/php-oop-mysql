@@ -70,5 +70,18 @@ class Product
 
         return $stmt;
     }
+    // используется для пагинации товаров
+    public function countAll()
+    {
+        // запрос MySQL
+        $query = "SELECT id FROM " . $this->table_name . "";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $num = $stmt->rowCount();
+
+        return $num;
+    }
 }
 
