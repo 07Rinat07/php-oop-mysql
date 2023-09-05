@@ -47,7 +47,21 @@ require_once "layout_header.php";
         <tr>
             <td>Категория</td>
             <td>
-                <!-- здесь будут категории из базы данных -->
+                <?php
+                // читаем категории товаров из базы данных
+                $stmt = $category->read();
+
+                // помещаем их в выпадающий список
+                echo "<select class='form-control' name='category_id'>";
+                echo "<option>Выбрать категорию...</option>";
+
+                while ($row_category = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row_category);
+                    echo "<option value='{$id}'>{$name}</option>";
+                }
+
+                echo "</select>";
+                ?>
             </td>
         </tr>
 
